@@ -8,18 +8,21 @@ import base64
 
 
 class MapWidget(QWidget):
-    def __init__(self, latitude, longitude):
+    def __init__(self, positions):
         super().__init__()
         self.webEngineView = None
-        self.initUI(latitude, longitude)
+        self.initUI(positions)
 
-    def initUI(self, latitude, longitude):
+    def initUI(self, positions):
         self.setGeometry(300, 300, 800, 600)
         self.setWindowTitle('Map')
 
         # Create folium map
-        m = folium.Map(location=[latitude, longitude], zoom_start=15)
-        folium.Marker([latitude, longitude]).add_to(m)
+        m = folium.Map(location=[positions[0][0], positions[0][1]], zoom_start=15)
+
+        # Add a marker for each position
+        for position in positions:
+            folium.Marker([position[0], position[1]]).add_to(m)
 
         # Save it to tmp file and re-open file as base64
         data = io.BytesIO()
@@ -38,12 +41,12 @@ def main():
     app = QApplication(sys.argv)
 
     # Set your GPS coordinates here
-    latitude = 44.4268
-    longitude = 26.1025
+    positions = [[44.4268, 26.1025], [44.4278, 26.1035], [44.4288, 26.1045]]
 
-    ex = MapWidget(latitude, longitude)
+    ex = MapWidget(positions)
     sys.exit(app.exec_())
 
 
 if __name__ == '__main__':
     main()
+

@@ -24,6 +24,9 @@ class MapWidget(QWidget):
         for position in positions:
             folium.Marker([position[0], position[1]]).add_to(m)
 
+        # Draw a line connecting the points
+        folium.PolyLine(positions, color="red", weight=2.5, opacity=1).add_to(m)
+
         # Save it to tmp file and re-open file as base64
         data = io.BytesIO()
         m.save(data, close_file=False)
@@ -49,4 +52,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 

@@ -5,25 +5,43 @@
 TinyGPSPlus gps;
 SoftwareSerial SerialGPS(4, 5); 
 
-const char* ssid = "TP-Link_AF60"; //ssid of your wifi
-const char* password = "64227375"; //password of your wifi
+const char* ssid = "x"; //ssid of your wifi
+const char* password = "x"; //password of your wifi
 
 float Latitude , Longitude;
 int year , month , date, hour , minute , second;
 String DateString , TimeString , LatitudeString , LongitudeString;
+
+bool gpsConnected = false; // Flag to track GPS connection status
 
 void setup()
 {
   Serial.begin(9600);
   SerialGPS.begin(9600);
   Serial.println();
-  Serial.print("Connecting");
+  Serial.print("Connecting to GPS");
+  
+  // Wait until GPS module is connected
+  while (!gpsConnected) {
+    if (SerialGPS.available() > 0) {
+      if (gps.encode(SerialGPS.read())) {
+        if (gps.location.isValid()) {
+          gpsConnected = true; // Set the flag to true when GPS is connected
+        }
+      }
+    }
+  }
+  
+  Serial.println("GPS connected");
+  
+  Serial.print("Connecting to WiFi");
   WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED)
-  {
+  
+  while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
+  
   Serial.println("");
   Serial.println("WiFi connected");
 }

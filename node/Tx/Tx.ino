@@ -52,7 +52,7 @@ void setup() {
     if (Serial2.available() > 0) {
       if (gps.encode(Serial2.read())) {
         if (gps.location.isValid()) {
-          gpsConnected = true; // Set the flag to true when GPS is connected
+          gpsConnected = true; 
           Serial.println("GPS connected");
         }
       }

@@ -1,12 +1,8 @@
 #include <TinyGPS++.h> // library for GPS module
 #include <SoftwareSerial.h>
-#include <ESP8266WiFi.h>
 
 TinyGPSPlus gps;
-SoftwareSerial SerialGPS(4, 5); 
-
-const char* ssid = "x"; //ssid of your wifi
-const char* password = "x"; //password of your wifi
+SoftwareSerial SerialGPS(1, 3); 
 
 float Latitude , Longitude;
 int year , month , date, hour , minute , second;
@@ -33,17 +29,6 @@ void setup()
   }
   
   Serial.println("GPS connected");
-  
-  Serial.print("Connecting to WiFi");
-  WiFi.begin(ssid, password);
-  
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  
-  Serial.println("");
-  Serial.println("WiFi connected");
 }
 
 void loop()

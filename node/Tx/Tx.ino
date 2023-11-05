@@ -74,7 +74,8 @@ void loop() {
   } 
   else {
     Serial.print("Invalid GPS data ");
-    Serial.print(counter);
+    Serial.println(counter);
+
     LoRa.beginPacket();
     LoRa.print("GPS unavailable ");
     LoRa.print(counter);

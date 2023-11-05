@@ -1,7 +1,3 @@
-/*********
-  Modified from the examples of the Arduino LoRa library
-  More resources: https://randomnerdtutorials.com
-*********/
 #include <SPI.h>
 #include <LoRa.h>
 #include <TinyGPS++.h>
@@ -70,12 +66,16 @@ void loop() {
     Serial.println(gps.location.lat(), 6);
     Serial.print("Longitude: ");
     Serial.println(gps.location.lng(), 6);
+    Serial.print("Satellites: ");
+    Serial.println(gps.satellites.value()); // Print the number of satellites
 
     LoRa.beginPacket();
     LoRa.print("Lat: ");
     LoRa.print(gps.location.lat(), 6);
     LoRa.print(", Lng: ");
     LoRa.print(gps.location.lng(), 6);
+    LoRa.print(", Satellites: ");
+    LoRa.print(gps.satellites.value()); // Send the number of satellites
     LoRa.print(", Counter: ");
     LoRa.print(counter);
     LoRa.endPacket();

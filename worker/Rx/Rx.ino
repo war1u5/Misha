@@ -12,6 +12,8 @@ void setup() {
   while (!Serial);
   Serial.println("LoRa Receiver");
 
+  delay(3000);
+
   //setup LoRa transceiver module
   LoRa.setPins(ss, rst, dio0);
   

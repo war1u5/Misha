@@ -43,16 +43,16 @@ void setup() {
   LoRa.setSyncWord(0xF3);
   Serial.println("LoRa Initializing OK!");
 
-  while (!gpsConnected) {
-    if (Serial2.available() > 0) {
-      if (gps.encode(Serial2.read())) {
-        if (gps.location.isValid()) {
-          gpsConnected = true; 
-          Serial.println("GPS connected");
-        }
-      }
-    }
-  }
+  // while (!gpsConnected) {
+  //   if (Serial2.available() > 0) {
+  //     if (gps.encode(Serial2.read())) {
+  //       if (gps.location.isValid()) {
+  //         gpsConnected = true; 
+  //         Serial.println("GPS connected");
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 void loop() {
@@ -61,26 +61,20 @@ void loop() {
   }
 
   if (gps.location.isValid()) {
+    String dataString = "hello " + String(counter) + 
+                   ", Lat: " + String(gps.location.lat(), 6) +
+                   ", Lng: " + String(gps.location.lng(), 6) +
+                   ", Satellites: " + String(gps.satellites.value());
 
-    Serial.print("Latitude: ");
-    Serial.println(gps.location.lat(), 6);
-    Serial.print("Longitude: ");
-    Serial.println(gps.location.lng(), 6);
-    Serial.print("Satellites: ");
-    Serial.println(gps.satellites.value()); // Print the number of satellites
+    Serial.println(dataString);
 
     LoRa.beginPacket();
-    LoRa.print("Lat: ");
-    LoRa.print(gps.location.lat(), 6);
-    LoRa.print(", Lng: ");
-    LoRa.print(gps.location.lng(), 6);
-    LoRa.print(", Satellites: ");
-    LoRa.print(gps.satellites.value()); // Send the number of satellites
-    LoRa.print(", Counter: ");
-    LoRa.print(counter);
+    LoRa.print(dataString);
     LoRa.endPacket();
-  } else {
-    Serial.println("Invalid GPS data");
+  } 
+  else {
+    Serial.print("Invalid GPS data ");
+    Serial.print(counter);
     LoRa.beginPacket();
     LoRa.print("GPS unavailable ");
     LoRa.print(counter);

@@ -1,49 +1,9 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QComboBox, QVBoxLayout, QPushButton, QLabel, QTextEdit
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtWidgets import QWidget, QComboBox, QVBoxLayout, QPushButton, QLabel, QTextEdit
 from PyQt5.QtGui import QIcon
 from serial.tools import list_ports
-import serial
-import serial.serialutil
-import logging
-import sys
-import pyqtgraph as pg
+from serial_thread import SerialThread
 import numpy as np
-
-# Set up logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-WORKER_ID = 'worker_1'
-BAUD_RATE = 115200  # Set baud rate to 115200 by default
-
-class SerialThread(QThread):
-    signal = pyqtSignal('PyQt_PyObject')
-
-    def __init__(self, com_port):
-        QThread.__init__(self)
-        self.com_port = com_port
-
-    def run(self):
-        global ser
-        try:
-            ser = serial.Serial(self.com_port, BAUD_RATE, timeout=1)  # Set a timeout value in seconds
-            logger.info(f"Connected to {self.com_port} at {BAUD_RATE} baud")
-
-            while True:
-                data = ser.readline().decode().strip()
-                if data:  # Check if data is not empty
-                    message = {'worker_id': WORKER_ID, 'data': data}
-                    self.signal.emit(message)  # Emit the whole message
-                    logger.info(f"Sent data: {message}")
-
-        except serial.serialutil.SerialException as e:
-            self.signal.emit(f"Error: {e}")
-            logger.error(f"Error: {e}")
-        finally:
-            if ser.is_open:
-                ser.close()
-                logger.info("Serial port closed")
-
+import pyqtgraph as pg
 
 class SerialParametersApp(QWidget):
     def __init__(self):
@@ -118,28 +78,3 @@ class SerialParametersApp(QWidget):
     def update_graph(self, rssi):
         self.rssi_data = np.append(self.rssi_data, rssi)
         self.graph.plot(self.rssi_data, pen='y')
-
-
-app = QApplication(sys.argv)
-app.setStyleSheet("""
-    QWidget { 
-        background-color: #202020; 
-        color: #ffffff; 
-    } 
-    QPushButton, QComboBox { 
-        background-color: #0066CC; 
-        font-size: 20px;
-    }
-    QTextEdit {
-        background-color: #000000;
-        color: #00FF00;
-        font-size: 20px;
-    }
-""")
-app.setWindowIcon(QIcon('../../utils/images/workerAppLogo.png'))
-
-
-window = SerialParametersApp()
-window.show()
-
-sys.exit(app.exec_())

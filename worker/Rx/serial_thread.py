@@ -3,12 +3,12 @@ import serial
 import serial.serialutil
 import logging
 
+from kafka_producer import KafkaProducerWrapper
+from worker_config import WORKER_ID, BAUD_RATE, GPS_DATA_KAFKA_TOPIC, KAFKA_SERVERS
+
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-WORKER_ID = 'worker_1'
-BAUD_RATE = 115200  # Set baud rate to 115200 by default
 
 
 class SerialThread(QThread):
@@ -17,6 +17,7 @@ class SerialThread(QThread):
     def __init__(self, com_port):
         QThread.__init__(self)
         self.com_port = com_port
+        self.kafka_producer = KafkaProducerWrapper(KAFKA_SERVERS, GPS_DATA_KAFKA_TOPIC)
 
     def run(self):
         global ser
@@ -30,6 +31,7 @@ class SerialThread(QThread):
                     message = {'worker_id': WORKER_ID, 'data': data}
                     self.signal.emit(message)
                     logger.info(f"Sent data: {message}")
+                    self.kafka_producer.send_message(message)
 
         except serial.serialutil.SerialException as e:
             self.signal.emit(f"Error: {e}")

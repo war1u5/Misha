@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QApplication, QSplashScreen
+from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtCore import QTimer
 from serial_parameters_app import SerialParametersApp
 import sys
 
@@ -18,7 +19,7 @@ app.setStyleSheet("""
         color: #00FF00;
         font-size: 20px;
     }
-""")  # Set background color to black, text color to white, and button/dropdown color to green
+""")
 app.setWindowIcon(QIcon('../../utils/images/workerAppLogo.png'))
 
 window = SerialParametersApp()

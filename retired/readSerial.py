@@ -136,7 +136,7 @@ app.setStyleSheet("""
         font-size: 20px;
     }
 """)
-app.setWindowIcon(QIcon('../../utils/images/workerAppLogo.png'))
+app.setWindowIcon(QIcon('../utils/images/workerAppLogo.png'))
 
 
 window = SerialParametersApp()

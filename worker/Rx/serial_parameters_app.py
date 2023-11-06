@@ -5,6 +5,7 @@ from serial_thread import SerialThread
 import numpy as np
 import pyqtgraph as pg
 
+
 class SerialParametersApp(QWidget):
     def __init__(self):
         super().__init__()
@@ -58,12 +59,14 @@ class SerialParametersApp(QWidget):
         self.serial_thread.start()
 
     def update_output_text(self, message):
-        if isinstance(message, str):
-            self.output_text.append(message)
-        else:
+        if isinstance(message, str) and message.startswith("Error:"):
+            self.output_text.append("<font color='red'>" + message + "</font>")
+        elif isinstance(message, dict):
             self.output_text.append(message['data'])
             rssi = self.extract_rssi(message['data'])
             self.update_graph(rssi)
+        else:
+            self.output_text.append(message)
 
     def clear_output_text(self):
         self.output_text.clear()

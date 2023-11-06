@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 WORKER_ID = 'worker_1'
 BAUD_RATE = 115200  # Set baud rate to 115200 by default
 
+
 class SerialThread(QThread):
     signal = pyqtSignal('PyQt_PyObject')
 
@@ -27,7 +28,7 @@ class SerialThread(QThread):
                 data = ser.readline().decode().strip()
                 if data:  # Check if data is not empty
                     message = {'worker_id': WORKER_ID, 'data': data}
-                    self.signal.emit(message)  # Emit the whole message
+                    self.signal.emit(message)
                     logger.info(f"Sent data: {message}")
 
         except serial.serialutil.SerialException as e:

@@ -75,7 +75,6 @@ class SerialParametersApp(QWidget):
         data_list = data.split()
         rssi_str = data_list[-1]
         rssi = int(rssi_str)
-
         return rssi
 
     def update_graph(self, rssi):

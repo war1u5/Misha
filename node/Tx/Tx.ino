@@ -13,23 +13,22 @@
 TinyGPSPlus gps;
 
 int counter = 0;
-bool gpsConnected = false; // Flag to track GPS connection status
 
 void setup() {
   //initialize Serial Monitor
   Serial.begin(115200);
   while (!Serial);
   Serial.println("LoRa Sender");
-  
+
   // GPS serial con
   Serial2.begin(9600);
 
   delay(3000);
-  
+
   //setup LoRa transceiver module
   LoRa.setPins(ss, rst, dio0);
-  
-  //replace the LoRa.begin(---E-) argument with your location's frequency 
+
+  //replace the LoRa.begin(---E-) argument with your location's frequency
   //433E6 for Asia
   //866E6 for Europe
   //915E6 for North America
@@ -42,17 +41,6 @@ void setup() {
   // ranges from 0-0xFF
   LoRa.setSyncWord(0xF3);
   Serial.println("LoRa Initializing OK!");
-
-  // while (!gpsConnected) {
-  //   if (Serial2.available() > 0) {
-  //     if (gps.encode(Serial2.read())) {
-  //       if (gps.location.isValid()) {
-  //         gpsConnected = true; 
-  //         Serial.println("GPS connected");
-  //       }
-  //     }
-  //   }
-  // }
 }
 
 void loop() {
@@ -61,24 +49,35 @@ void loop() {
   }
 
   if (gps.location.isValid()) {
-    String dataString = "hello " + String(counter) + 
+    String dataString = "hello: " + String(counter) +
+                   ", Valid: " + 1 +
                    ", Lat: " + String(gps.location.lat(), 6) +
                    ", Lng: " + String(gps.location.lng(), 6) +
-                   ", Satellites: " + String(gps.satellites.value());
+                   ", Satellites: " + String(gps.satellites.value()) +
+                   ", Timestamp: " + String(millis()) +
+                   ", Date: " + String(gps.date.day()) + "/" + String(gps.date.month()) + "/" + String(gps.date.year()) +
+                   ", Time: " + String(gps.time.hour()) + ":" + String(gps.time.minute()) + ":" + String(gps.time.second());
 
     Serial.println(dataString);
 
     LoRa.beginPacket();
     LoRa.print(dataString);
     LoRa.endPacket();
-  } 
+  }
   else {
-    Serial.print("Invalid GPS data ");
-    Serial.println(counter);
+    String dataString = "hello: " + String(counter) +
+                   ", Valid: " + 0 +
+                   ", Lat: " + -1 +
+                   ", Lng: " + -1 +
+                   ", Satellites: " + -1 +
+                   ", Timestamp: " + String(millis()) +
+                   ", Date: " + -1 +
+                   ", Time: " + -1;
+
+    Serial.println(dataString);
 
     LoRa.beginPacket();
-    LoRa.print("GPS unavailable ");
-    LoRa.print(counter);
+    LoRa.print(dataString);
     LoRa.endPacket();
   }
 

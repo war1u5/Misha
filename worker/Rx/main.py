@@ -7,7 +7,7 @@ import sys
 app = QApplication(sys.argv)
 app.setStyleSheet("""
     QWidget { 
-        background-color: #202020; 
+        background-color: #202020;  
         color: #ffffff; 
     } 
     QPushButton, QComboBox { 

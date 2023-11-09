@@ -1,14 +1,10 @@
 from PyQt5.QtCore import QThread, pyqtSignal
 import serial
 import serial.serialutil
-import logging
+import json
 
 from kafka_producer import KafkaProducerWrapper
 from worker_config import WORKER_ID, BAUD_RATE, GPS_DATA_KAFKA_TOPIC, KAFKA_SERVERS
-
-# Set up logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 
 class SerialThread(QThread):
@@ -23,20 +19,33 @@ class SerialThread(QThread):
         global ser
         try:
             ser = serial.Serial(self.com_port, BAUD_RATE, timeout=1)  # Set a timeout value in seconds
-            logger.info(f"Connected to {self.com_port} at {BAUD_RATE} baud")
 
             while True:
                 data = ser.readline().decode().strip()
-                if data:  # Check if data is not empty
+                if data:  # if data is not empty
                     message = {'worker_id': WORKER_ID, 'data': data}
+                    print(message)
+                    # message = self.transform_message(data)
                     self.signal.emit(message)
-                    logger.info(f"Sent data: {message}")
-                    self.kafka_producer.send_message(message)
+                    # self.kafka_producer.send_message(json.dumps(message))
 
         except serial.serialutil.SerialException as e:
             self.signal.emit(f"Error: {e}")
-            logger.error(f"Error: {e}")
         finally:
             if ser.is_open:
                 ser.close()
-                logger.info("Serial port closed")
+
+    def transform_message(self, message):
+        split_message = message.split(", ")
+        json_message = {
+            'worker_id': WORKER_ID,
+            'hello': split_message[0].split(" ")[1],
+            'Valid GPS data': int(split_message[1].split(": ")[1]),
+            'Lat': float(split_message[2].split(": ")[1]),
+            'Lng': float(split_message[3].split(": ")[1]),
+            'Satellites': int(split_message[4].split(": ")[1]),
+            'Timestamp': int(split_message[5].split(": ")[1]),
+            'Date': split_message[6].split(": ")[1],
+            'Time': split_message[7].split(": ")[1]
+        }
+        return json_message

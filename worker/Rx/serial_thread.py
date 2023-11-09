@@ -24,10 +24,9 @@ class SerialThread(QThread):
                 data = ser.readline().decode().strip()
                 if data:  # if data is not empty
                     message = {'worker_id': WORKER_ID, 'data': data}
-                    print(message)
-                    # message = self.transform_message(data)
                     self.signal.emit(message)
-                    # self.kafka_producer.send_message(json.dumps(message))
+                    json_object = self.transform_message(message)
+                    self.kafka_producer.send_message(json.dumps(json_object))
 
         except serial.serialutil.SerialException as e:
             self.signal.emit(f"Error: {e}")
@@ -36,16 +35,19 @@ class SerialThread(QThread):
                 ser.close()
 
     def transform_message(self, message):
-        split_message = message.split(", ")
+        data = message['data']
+        split_message = data.split("'")[1].split(", ")
         json_message = {
-            'worker_id': WORKER_ID,
-            'hello': split_message[0].split(" ")[1],
-            'Valid GPS data': int(split_message[1].split(": ")[1]),
+            'worker_id': message['worker_id'],
+            'hello': int(split_message[0].split(": ")[1]),
+            'Valid': int(split_message[1].split(": ")[1]),
             'Lat': float(split_message[2].split(": ")[1]),
             'Lng': float(split_message[3].split(": ")[1]),
             'Satellites': int(split_message[4].split(": ")[1]),
             'Timestamp': int(split_message[5].split(": ")[1]),
             'Date': split_message[6].split(": ")[1],
-            'Time': split_message[7].split(": ")[1]
+            'Time': split_message[7].split(": ")[1],
+            'RSSI': int(data.split()[-1])
         }
         return json_message
+

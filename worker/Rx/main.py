@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QApplication, QSplashScreen
-from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtCore import QTimer
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtGui import QIcon
+# from PyQt5.QtCore import QTimer
 from serial_parameters_app import SerialParametersApp
 import sys
 

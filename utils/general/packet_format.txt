@@ -1,0 +1,1 @@
+{\"worker_id\": \"W1\", \"hello\": 434, \"Valid\": 0, \"Lat\": -1.0, \"Lng\": -1.0, \"Satellites\": -1, \"Timestamp\": 509179, \"Date\": \"-1\", \"Time\": \"-1\", \"RSSI\": -34}

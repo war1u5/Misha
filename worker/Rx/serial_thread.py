@@ -19,14 +19,17 @@ class SerialThread(QThread):
         global ser
         try:
             ser = serial.Serial(self.com_port, BAUD_RATE, timeout=1)  # Set a timeout value in seconds
-
             while True:
-                data = ser.readline().decode().strip()
+                try:
+                    data = ser.readline().decode().strip()
+                except UnicodeDecodeError:
+                    continue
+
                 if data:  # if data is not empty
                     message = {'worker_id': WORKER_ID, 'data': data}
                     self.signal.emit(message)
                     json_object = self.transform_message(message)
-                    self.kafka_producer.send_message(json.dumps(json_object))
+                    self.kafka_producer.send_message(bytes(f'{json_object}', 'UTF-8'))
 
         except serial.serialutil.SerialException as e:
             self.signal.emit(f"Error: {e}")
@@ -49,5 +52,4 @@ class SerialThread(QThread):
             'Time': split_message[7].split(": ")[1],
             'RSSI': int(data.split()[-1])
         }
-        return json_message
-
+        return json.dumps(json_message)

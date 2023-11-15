@@ -1,0 +1,36 @@
+version: "2"
+
+services:
+  influxdb:
+    image: influxdb:1.8-alpine
+    container_name: influxdb
+    restart: always
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb:/var/lib/influxdb
+    environment:
+      - INFLUXDB_USER=warius # replace with your username
+      - INFLUXDB_USER_PASSWORD=12345678 # replace with your password
+      - INFLUXDB_DB=main_storage # replace with your database name
+    networks:
+      - mynetwork
+
+  telegraf:
+    image: telegraf:latest
+    container_name: telegraf
+    restart: always
+    depends_on:
+      - influxdb
+    links:
+      - influxdb
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    networks:
+      - mynetwork
+
+volumes:
+  influxdb:
+
+networks:
+  mynetwork:

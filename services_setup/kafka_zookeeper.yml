@@ -3,7 +3,7 @@ version: "2"
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
-    #container_name:
+    container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -29,36 +29,36 @@ services:
     networks:
       - mynetwork
 
-  influxdb:
-    image: influxdb:1.8-alpine
-    container_name: influxdb
-    restart: always
-    ports:
-      - "8086:8086"
-    volumes:
-      - influxdb:/var/lib/influxdb
-    environment:
-      - INFLUXDB_USER=warius # replace with your username
-      - INFLUXDB_USER_PASSWORD=12345678 # replace with your password
-      - INFLUXDB_DB=main_storage # replace with your database name
-    networks:
-      - mynetwork
-
-  telegraf:
-    image: telegraf:latest
-    #container_name:
-    restart: always
-    depends_on:
-      - influxdb
-    links:
-      - influxdb
-    volumes:
-      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
-    networks:
-      - mynetwork
-
-volumes:
-  influxdb:
+#  influxdb:
+#    image: influxdb:1.8-alpine
+#    container_name: influxdb
+#    restart: always
+#    ports:
+#      - "8086:8086"
+#    volumes:
+#      - influxdb:/var/lib/influxdb
+#    environment:
+#      - INFLUXDB_USER=warius # replace with your username
+#      - INFLUXDB_USER_PASSWORD=12345678 # replace with your password
+#      - INFLUXDB_DB=main_storage # replace with your database name
+#    networks:
+#      - mynetwork
+#
+#  telegraf:
+#    image: telegraf:latest
+#    container_name: telegraf
+#    restart: always
+#    depends_on:
+#      - influxdb
+#    links:
+#      - influxdb
+#    volumes:
+#      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+#    networks:
+#      - mynetwork
+#
+#volumes:
+#  influxdb:
 
 networks:
   mynetwork:

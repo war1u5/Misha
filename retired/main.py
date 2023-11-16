@@ -1,5 +1,5 @@
-from consumer_config import KAFKA_SERVERS, GPS_DATA_KAFKA_TOPIC
-from kafka_consumer import KafkaConsumerWrapper
+from Misha.retired.consumer_config import KAFKA_SERVERS, GPS_DATA_KAFKA_TOPIC
+from Misha.retired.kafka_consumer import KafkaConsumerWrapper
 
 
 def main():

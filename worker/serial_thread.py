@@ -3,7 +3,7 @@ import serial
 import serial.serialutil
 import json
 
-from kafka_producer import KafkaProducerWrapper
+from Misha.worker.kafka_producer import KafkaProducerWrapper
 from worker_config import WORKER_ID, BAUD_RATE, GPS_DATA_KAFKA_TOPIC, KAFKA_SERVERS
 
 
@@ -29,6 +29,7 @@ class SerialThread(QThread):
                     message = {'worker_id': WORKER_ID, 'data': data}
                     self.signal.emit(message)
                     json_object = self.transform_message(message)
+                    print(json_object)
                     self.kafka_producer.send_message(bytes(f'{json_object}', 'UTF-8'))
 
         except serial.serialutil.SerialException as e:

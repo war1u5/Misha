@@ -56,6 +56,7 @@ class SerialParametersApp(QWidget):
         else:
             self.submit_button.setEnabled(True)
             self.clear_button.setEnabled(True)
+            subprocess.Popen(["python", "../services_setup/start.py"])
 
     def check_ports(self):
         self.output_text.append("<font color='red'>Error: No COM ports available.</font>")

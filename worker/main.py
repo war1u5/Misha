@@ -3,6 +3,7 @@ from PyQt5.QtGui import QIcon
 # from PyQt5.QtCore import QTimer
 from serial_parameters_app import SerialParametersApp
 import sys
+import subprocess
 
 app = QApplication(sys.argv)
 app.setStyleSheet("""

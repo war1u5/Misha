@@ -4,6 +4,7 @@ from serial.tools import list_ports
 from serial_thread import SerialThread
 import numpy as np
 import pyqtgraph as pg
+import subprocess
 
 
 class SerialParametersApp(QWidget):
@@ -18,6 +19,10 @@ class SerialParametersApp(QWidget):
 
         self.left_layout = QVBoxLayout()
         self.layout.addLayout(self.left_layout)
+
+        self.start_docker_button = QPushButton("Start Docker")
+        self.start_docker_button.clicked.connect(self.start_docker)
+        self.left_layout.addWidget(self.start_docker_button)
 
         self.com_label = QLabel("COM Port:")
         self.com_label.setStyleSheet("font-size: 20px;")
@@ -80,3 +85,6 @@ class SerialParametersApp(QWidget):
     def update_graph(self, rssi):
         self.rssi_data = np.append(self.rssi_data, rssi)
         self.graph.plot(self.rssi_data, pen='y')
+
+    def start_docker(self):
+        subprocess.run(["python", "..\\services_setup\\start.py"])

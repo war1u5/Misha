@@ -12,11 +12,10 @@ class SerialParametersApp(QWidget):
         super().__init__()
 
         self.serial_thread = None
-        self.setWindowTitle("Worker interface")
+        self.setWindowTitle("Worker")
         self.showMaximized()
 
         self.layout = QVBoxLayout()
-
         self.left_layout = QVBoxLayout()
         self.layout.addLayout(self.left_layout)
 

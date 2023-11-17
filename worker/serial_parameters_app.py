@@ -20,10 +20,6 @@ class SerialParametersApp(QWidget):
         self.left_layout = QVBoxLayout()
         self.layout.addLayout(self.left_layout)
 
-        self.start_docker_button = QPushButton("Start Docker")
-        self.start_docker_button.clicked.connect(self.start_docker)
-        self.left_layout.addWidget(self.start_docker_button)
-
         self.com_label = QLabel("COM Port:")
         self.com_label.setStyleSheet("font-size: 20px;")
         self.left_layout.addWidget(self.com_label)
@@ -51,8 +47,18 @@ class SerialParametersApp(QWidget):
         self.layout.addWidget(self.graph)
 
         self.rssi_data = np.array([])
-
         self.setLayout(self.layout)
+
+        if not com_ports:
+            self.check_ports()
+            self.submit_button.setEnabled(False)
+            self.clear_button.setEnabled(False)
+        else:
+            self.submit_button.setEnabled(True)
+            self.clear_button.setEnabled(True)
+
+    def check_ports(self):
+        self.output_text.append("<font color='red'>Error: No COM ports available.</font>")
 
     def set_serial_parameters(self):
         com_port = self.com_dropdown.currentText()
@@ -85,6 +91,3 @@ class SerialParametersApp(QWidget):
     def update_graph(self, rssi):
         self.rssi_data = np.append(self.rssi_data, rssi)
         self.graph.plot(self.rssi_data, pen='y')
-
-    def start_docker(self):
-        subprocess.run(["python", "..\\services_setup\\start.py"])

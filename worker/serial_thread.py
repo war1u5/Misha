@@ -18,7 +18,7 @@ class SerialThread(QThread):
     def run(self):
         global ser
         try:
-            ser = serial.Serial(self.com_port, BAUD_RATE, timeout=1)  # Set a timeout value in seconds
+            ser = serial.Serial(self.com_port, BAUD_RATE, timeout=1)
             while True:
                 try:
                     data = ser.readline().decode().strip()

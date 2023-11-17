@@ -29,7 +29,7 @@ class SerialThread(QThread):
                     message = {'worker_id': WORKER_ID, 'data': data}
                     self.signal.emit(message)
                     json_object = self.transform_message(message)
-                    print(json_object)
+                    # print(json_object)
                     self.kafka_producer.send_message(bytes(f'{json_object}', 'UTF-8'))
 
         except serial.serialutil.SerialException as e:

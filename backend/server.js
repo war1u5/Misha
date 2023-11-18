@@ -26,7 +26,7 @@ const influx = new Influx.InfluxDB({
   ]
 });
 
-// Serve static files from the current directory
+// Serve static files
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 wss.on('connection', ws => {
@@ -39,7 +39,7 @@ wss.on('connection', ws => {
         order by time desc
         limit 1
       `);
-
+      console.log(result);
       ws.send(JSON.stringify(result));
     } catch (error) {
       console.error(`Error querying data from InfluxDB! ${error.stack}`);

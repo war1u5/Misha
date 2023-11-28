@@ -1,5 +1,4 @@
 from PyQt5.QtWidgets import QWidget, QComboBox, QVBoxLayout, QPushButton, QLabel, QTextEdit
-# from PyQt5.QtGui import QIcon
 from serial.tools import list_ports
 from serial_thread import SerialThread
 import numpy as np

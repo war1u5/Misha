@@ -1,5 +1,4 @@
 from kafka import KafkaProducer
-import json
 
 
 class KafkaProducerWrapper:

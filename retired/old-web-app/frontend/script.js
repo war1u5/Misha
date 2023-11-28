@@ -20,8 +20,8 @@ document.getElementById('startButton').addEventListener('click', () => {
 //    const lon = data[0].Lng; /* + Math.random() * 30 - 20;*/
 //    const device = data[0].worker_id;
 
-    const lat = data[0].Lat + Math.random() * 20 - 10;
-    const lon = data[0].Lng + Math.random() * 30 - 20;
+    const lat = 40 + data[0].Lat + Math.random() * 2 - 10;
+    const lon = 50 + data[0].Lng + Math.random() * 3 - 20;
     const device = data[0].worker_id;
 
     console.log(lat);

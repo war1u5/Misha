@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Real-Time GPS Tracker</title>
+  <title>GPS Tracker</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #map {
+      height: 800px;
+      width: 1600px;
+    }
+  </style>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
-  <h1>Real-Time GPS Tracker</h1>
-  <button id="startButton">Start Tracking</button>
-  <button id="stopButton">Stop Tracking</button>
-  <button id="clearButton">Clear Map</button>
-  <div id="map" style="height: 400px;"></div>
+  <div>
+    <h1>GPS Tracker</h1>
+    <button id="startButton">Start Tracking</button>
+    <button id="stopButton">Stop Tracking</button>
+    <button id="clearButton">Clear Map</button>
+    <div id="map"></div>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>

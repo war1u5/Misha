@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, RedirectFunction } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from "../actions/auth";
 
-const Login = ({ login }) => {
+const Login = ({ login, isAuthenticated }) => {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
 
     const { email, password } = formData;
+    const navigate = useNavigate();
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -22,12 +23,19 @@ const Login = ({ login }) => {
     // is the user authed?
     // redirect to home page
 
+    useEffect(() => {
+        // console.log('isAuthenticated:', isAuthenticated);
+        if (isAuthenticated) {
+            navigate('/');
+        }
+    }, [isAuthenticated]);
+
     return(
         <div className='container mt-5'>
             <h1>Sign In</h1>
             <p>Sign into your Account</p>
             <form onSubmit={e => onSubmit(e)}>
-                <div className='form-group'>
+                <div className='form-group mb-3'>
                     <input
                         className='form-control'
                         type='email'
@@ -38,7 +46,7 @@ const Login = ({ login }) => {
                         required
                     />
                 </div>
-                <div className='form-group'>
+                <div className='form-group mb-3'>
                     <input
                         className='form-control'
                         type='password'
@@ -62,7 +70,7 @@ const Login = ({ login }) => {
     );
 };
 
-// const mapStateToProps = state => ({
-//     // is authed?
-// });
-export default connect(null, { login })(Login);
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+export default connect(mapStateToProps, { login })(Login);

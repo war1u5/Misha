@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'accounts',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -51,7 +52,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True  # If you want to allow all origins
+
+# CORS_ORIGIN_WHITELIST = [
+#     'http://localhost:3000',  # Allow a specific origin
+#     'http://localhost:8000',  # Allow another specific origin
+#     'https://codepen.io/frontendcharts/pen/JBprpp.js'
+# ]
 
 ROOT_URLCONF = 'auth_system.urls'
 

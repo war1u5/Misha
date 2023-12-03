@@ -16,9 +16,17 @@ const Navbar = ({ logout, isAuthenticated }) => {
     );
 
     const authLinks = () => (
-        <li className="nav-item">
-            <a className="nav-link" href="#!" onClick={logout}>Logout</a>
-        </li>
+        <Fragment>
+            <li className="nav-item">
+                <Link className="nav-link" to="/tracker">Tracker</Link>
+            </li>
+            <li className="nav-item">
+                <Link className="nav-link" to="/stats">Stats</Link>
+            </li>
+            <li className="nav-item">
+                <a className="nav-link" href="#!" onClick={logout}>Logout</a>
+            </li>
+        </Fragment>
     );
 
     return (

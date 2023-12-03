@@ -54,7 +54,7 @@ class SerialParametersApp(QWidget):
         else:
             self.submit_button.setEnabled(True)
             self.clear_button.setEnabled(True)
-            subprocess.Popen(["python", "../services_setup/start.py"])
+            # subprocess.Popen(["python", "../services_setup/start.py"])
 
     def check_ports(self):
         self.output_text.append("<font color='red'>Error: No COM ports available.</font>")
@@ -80,6 +80,8 @@ class SerialParametersApp(QWidget):
 
     def clear_output_text(self):
         self.output_text.clear()
+        self.rssi_data = np.array([])  # Clear the data array
+        self.graph.clear()  # Clear the graph
 
     def extract_rssi(self, data):
         data_list = data.split()

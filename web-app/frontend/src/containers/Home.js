@@ -8,9 +8,9 @@ const Home = () => (
             <p className="lead">Military Intelligence Surveillance and Hazard Assessment</p>
             <hr className="my-4" />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', top: '-160px' }}>
-            <World />
-        </div>
+        {/*<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', top: '-160px' }}>*/}
+        {/*    <World />*/}
+        {/*</div>*/}
     </div>
 );
 

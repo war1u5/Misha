@@ -14,6 +14,8 @@ import {Provider} from "react-redux";
 import store from './store';
 
 import Layout from './hocs/Layout';
+import PrivateRoute from "./utils/PrivateRoute";
+
 
 const App = () => (
     <Provider store={store}>
@@ -26,8 +28,10 @@ const App = () => (
                     <Route path='/activate/:uid/:token' element={<Activate />} />
                     <Route path='/reset-password' element={<ResetPassword />} />
                     <Route path='/password/reset/confirm/:uid/:token' element={<ResetPasswordConfirm />} />
-                    <Route path='/tracker' element={<Tracker />}/>
-                    <Route path='/stats' element={<Stats />} />
+                    <Route element={<PrivateRoute/>}>
+                        <Route path='/tracker' element={<Tracker />}/>
+                        <Route path='/stats' element={<Stats />} />
+                    </Route>
                 </Routes>
             </Layout>
         </Router>

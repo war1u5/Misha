@@ -66,6 +66,7 @@ const Login = ({ login, isAuthenticated }) => {
             <p className='mt-3'>
                 Forgot your password? <Link to='/reset-password'>Reset Password</Link>
             </p>
+
         </div>
     );
 };

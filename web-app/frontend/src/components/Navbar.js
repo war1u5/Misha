@@ -1,9 +1,11 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { Link } from "react-router-dom";
 import { logout } from "../actions/auth";
 import { connect } from "react-redux";
+import { ThemeContext } from '../hocs/Layout';
 
 const Navbar = ({ logout, isAuthenticated }) => {
+    const { toggleTheme } = useContext(ThemeContext);
     const guestLinks = () => (
         <Fragment>
             <li className="nav-item">
@@ -43,11 +45,16 @@ const Navbar = ({ logout, isAuthenticated }) => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
+            <ul className="nav nav-pills mr-auto">
                 <li className="nav-item active">
                     <Link className="nav-link" to="/">Home</Link>
                 </li>
                 {isAuthenticated ? authLinks() : guestLinks()}
+            </ul>
+            <ul className="navbar-nav ml-auto">
+                <li className="nav-item active">
+                    <button className="nav-link" onClick={ toggleTheme }>Toggle Theme</button>
+                </li>
             </ul>
           </div>
         </nav>

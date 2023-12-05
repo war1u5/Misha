@@ -28,7 +28,7 @@ const World = () => {
   });
 
   return (
-      <div className='container-fluid text-center'>
+      <div className='container-fluid text-center' style={{ margin: '-50px auto'}}>
         <Globe
           backgroundColor='rgba(0,0,0,0)'
           showGlobe={false}
@@ -37,7 +37,7 @@ const World = () => {
           polygonCapMaterial={polygonsMaterial}
           polygonSideColor={() => 'rgba(0, 0, 0, 0)'}
           width='1250'
-          height='545'
+          height='645'
           animateIn={true}
           arcsData={arcsData}
           arcColor={'color'}

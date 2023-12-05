@@ -31,7 +31,7 @@ const Login = ({ login, isAuthenticated }) => {
     }, [isAuthenticated]);
 
     return(
-        <div className='container mt-5'>
+        <div className='container mt-5' style={{ height: '75.6vh' }}>
             <h1>Sign In</h1>
             <p>Sign into your Account</p>
             <form onSubmit={e => onSubmit(e)}>

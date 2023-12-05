@@ -52,7 +52,7 @@ const Signup = ({ signup, isAuthenticated }) => {
     }, [isAuthenticated, accountCreated]);
 
     return(
-        <div className='container mt-5'>
+        <div className='container mt-5 ' style={{ height: '75.6vh' }}>
             <h1>Sign Up</h1>
             <p>Create your Account</p>
             <form onSubmit={e => onSubmit(e)}>

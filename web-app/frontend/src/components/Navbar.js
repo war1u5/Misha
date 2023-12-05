@@ -45,15 +45,17 @@ const Navbar = ({ logout, isAuthenticated }) => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="nav nav-pills mr-auto">
+            <ul className="nav nav-underline">
                 <li className="nav-item active">
                     <Link className="nav-link" to="/">Home</Link>
                 </li>
                 {isAuthenticated ? authLinks() : guestLinks()}
             </ul>
             <ul className="navbar-nav ml-auto">
-                <li className="nav-item active">
-                    <button className="nav-link" onClick={ toggleTheme }>Toggle Theme</button>
+                <li className="nav-item active ml-5">
+                    <button className="nav-link ml-auto" style={{ marginLeft: '73.3vw' }} onClick={ toggleTheme }>
+                        Toggle Theme
+                    </button>
                 </li>
             </ul>
           </div>

@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect } from 'react';
 import Globe from 'react-globe.gl';
 import * as THREE from 'three';
 import * as topojson from 'topojson-client';
 import landData from '../assets/world-110m.json';
 
 const World = () => {
-  const [landPolygons, setLandPolygons] = useState([]);
+   const [landPolygons, setLandPolygons] = useState([]);
    const [arcsData, setArcsData] = useState([]);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const World = () => {
           arcDashLength={() => Math.random()}
           arcDashGap={() => Math.random()}
           arcDashAnimateTime={() => Math.random() * 4000 + 500}
-          
+
         />
       </div>
   );

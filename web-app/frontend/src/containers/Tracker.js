@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
 import axios from 'axios';
 import 'leaflet/dist/leaflet.css';
-import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
 import * as L from 'leaflet';
 import 'leaflet-defaulticon-compatibility';
 
@@ -16,7 +16,13 @@ const Tracker = () => {
   const mapRef = useRef(null);
 
   const fetchData = async () => {
+  try {
     const response = await axios.get('http://127.0.0.1:5000/api/gps-data');
+
+    if (response.data.length === 0) {
+      console.log('No data received');
+      return;
+    }
 
     console.log('Fetched data:', response.data[0]);
 
@@ -27,6 +33,7 @@ const Tracker = () => {
     const lon = response.data[0].Lng;
     const recordedTime = response.data[0].time;
     const node_id = response.data[0].worker_id;
+    const count = response.data[0].hello;
 
     console.log("Lat: ", lat);
     console.log("Lon: ", lon);
@@ -36,21 +43,26 @@ const Tracker = () => {
     const testLon = lon + randomLngOffset;
 
     setPoints(prevPoints => [
-        ...prevPoints,
-        {
-          Lat: testLat,
-          Lng: testLon,
-          time: recordedTime,
-          worker_id: node_id
-        },
-      ]);
-  };
+      ...prevPoints,
+      {
+        Lat: testLat,
+        Lng: testLon,
+        time: recordedTime,
+        worker_id: node_id,
+        packet: count
+      },
+    ]);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
+
 
   useEffect(() => {
     let intervalId;
 
     if (fetching) {
-      intervalId = setInterval(fetchData, 2000);
+      intervalId = setInterval(fetchData, 1000);
     }
 
     return () => clearInterval(intervalId);
@@ -93,12 +105,13 @@ const Tracker = () => {
                 attribution='© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               />
               {points.map(point => (
-                <Marker key={point.time} position={[point.Lat, point.Lng]}>
+                <Marker key={`${point.time}-${point.packet}`} position={[point.Lat, point.Lng]}>
                   <Popup>
                     <p>{`Time: ${new Date(point.time).toLocaleString()}`}</p>
                     <p>{`Node ID: ${point.worker_id}`}</p>
                     <p>{`Lat: ${point.Lat}`}</p>
                     <p>{`Lng: ${point.Lng}`}</p>
+                    <p>{`Lng: ${point.packet}`}</p>
                   </Popup>
                 </Marker>
               ))}

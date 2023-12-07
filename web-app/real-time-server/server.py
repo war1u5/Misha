@@ -15,8 +15,8 @@ def get_gps_data():
                             database='main_storage')
 
     #query = "SELECT Lat, Lng FROM kafka_consumer WHERE time > now() - 47900s"
-    query = "SELECT worker_id, Lat, Lng  FROM kafka_consumer WHERE Timestamp = 2857362"
-    # query = "SELECT worker_id, Lat, Lng  FROM kafka_consumer WHERE time > now() - 47900s"
+    # query = "SELECT worker_id, Lat, Lng  FROM kafka_consumer WHERE Timestamp = 2857362"
+    query = "SELECT worker_id, Lat, Lng, hello  FROM kafka_consumer WHERE time > now() - 1s"
     #query = "SELECT * FROM kafka_consumer WHERE time > now() - 47900s"
     result = client.query(query)
     data = list(result.get_points())

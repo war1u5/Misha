@@ -68,6 +68,7 @@ export default function (state = initialState, action) {
             localStorage.removeItem('refresh');
             return {
                 ...state,
+                loginError: true,
                 access: null,
                 refresh: null,
                 isAuthenticated: false,
@@ -83,6 +84,7 @@ export default function (state = initialState, action) {
                 ...state
             }
         default:
+            //console.log('Unhandled action type:', type);
             return state
     }
 }

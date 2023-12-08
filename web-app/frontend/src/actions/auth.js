@@ -101,9 +101,13 @@ export const login = (email, password) => async dispatch => {
 
         dispatch(load_user());
     } catch (err) {
+        console.error('Login failed:', err.response.data.detail);
         dispatch({
-            type: LOGIN_FAIL
+            type: LOGIN_FAIL,
+            payload: err.response.data.detail
         });
+
+        throw err;
     }
 };
 

@@ -4,37 +4,52 @@ import { connect } from 'react-redux';
 import { login } from "../actions/auth";
 
 const Login = ({ login, isAuthenticated }) => {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    });
+    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [loginError, setLoginError] = useState(null);
 
     const { email, password } = formData;
     const navigate = useNavigate();
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const onSubmit = e => {
+    const onSubmit = async (e) => {
         e.preventDefault();
+        setFormData({ email: '', password: '' });
 
-        login(email, password);
+        try {
+            await login(email, password);
+        } catch (err) {
+            setLoginError('Invalid credentials. Please try again.');
+        }
     };
 
-    // is the user authed?
-    // redirect to home page
+    const onFormClick = () => {
+        setLoginError(null);
+    };
 
     useEffect(() => {
-        // console.log('isAuthenticated:', isAuthenticated);
+        const handleLoginError = async () => {
+            try {
+                await login(email, password);
+                setLoginError(null);
+            } catch (err) {
+                setLoginError('Invalid credentials. Please try again.');
+            }
+        };
+
         if (isAuthenticated) {
             navigate('/');
+        } else if (loginError) {
+            handleLoginError();
         }
-    }, [isAuthenticated]);
+    }, [isAuthenticated, loginError]);
 
-    return(
+    return (
         <div className='container mt-5' style={{ height: '75.6vh' }}>
             <h1>Sign In</h1>
             <p>Sign into your Account</p>
-            <form onSubmit={e => onSubmit(e)}>
+            {loginError && <div className="alert alert-danger">{loginError}</div>}
+            <form onSubmit={e => onSubmit(e)} onClick={onFormClick}>
                 <div className='form-group mb-3'>
                     <input
                         className='form-control'
@@ -66,12 +81,13 @@ const Login = ({ login, isAuthenticated }) => {
             <p className='mt-3'>
                 Forgot your password? <Link to='/reset-password'>Reset Password</Link>
             </p>
-
         </div>
     );
 };
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    loginError: state.auth.payload
 });
+
 export default connect(mapStateToProps, { login })(Login);

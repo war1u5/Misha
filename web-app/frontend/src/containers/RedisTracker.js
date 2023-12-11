@@ -9,7 +9,7 @@ const generateRandomCoordinates = () => {
   return Math.random() % 30;
 };
 
-const Tracker = () => {
+const RedisTracker = () => {
   const [points, setPoints] = useState([]);
   const [fetching, setFetching] = useState(false);
   const mapRef = useRef(null);
@@ -125,4 +125,4 @@ const Tracker = () => {
   );
 };
 
-export default Tracker;
+export default RedisTracker;

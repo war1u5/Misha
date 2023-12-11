@@ -26,6 +26,12 @@ const Navbar = ({ logout, isAuthenticated }) => {
                 <Link className="nav-link" to="/stats">Stats</Link>
             </li>
             <li className="nav-item">
+                <Link className="nav-link" to="/redis">Redis</Link>
+            </li>
+            <li className="nav-item">
+                <Link className="nav-link" to="/reports">Reports</Link>
+            </li>
+            <li className="nav-item">
                 <a className="nav-link" href="#!" onClick={logout}>Logout</a>
             </li>
         </Fragment>
@@ -51,9 +57,9 @@ const Navbar = ({ logout, isAuthenticated }) => {
                 </li>
                 {isAuthenticated ? authLinks() : guestLinks()}
             </ul>
-            <ul className="navbar-nav ml-auto">
-                <li className="nav-item active ml-5">
-                    <button className="nav-link ml-auto" style={{ marginLeft: '73.3vw' }} onClick={ toggleTheme }>
+            <ul className="nav justify-content-end">
+                <li className="nav-item active">
+                    <button className="nav-link" onClick={ toggleTheme }>
                         Toggle Theme
                     </button>
                 </li>

@@ -15,6 +15,8 @@ import store from './store';
 
 import Layout from './hocs/Layout';
 import PrivateRoute from "./utils/PrivateRoute";
+import RedisTracker from "./containers/RedisTracker";
+import Reports from "./containers/Reports";
 
 
 const App = () => (
@@ -31,6 +33,8 @@ const App = () => (
                     <Route element={<PrivateRoute/>}>
                         <Route path='/tracker' element={<Tracker />}/>
                         <Route path='/stats' element={<Stats />} />
+                        <Route path='/redis' element={<RedisTracker />} />
+                        <Route path='/reports' element={<Reports />} />
                     </Route>
                 </Routes>
             </Layout>

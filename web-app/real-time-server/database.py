@@ -11,18 +11,21 @@ def get_gps_data():
                             password='12345678',
                             database='main_storage')
 
-    query = "SELECT worker_id, Lat, Lng, hello FROM kafka_consumer ORDER BY time DESC LIMIT 1"
+    #query = "SELECT worker_id, Lat, Lng, hello FROM kafka_consumer ORDER BY time DESC LIMIT 1"
+    query = "SELECT last(worker_id), last(Lat), last(Lng), last(hello) FROM kafka_consumer"
+    #query = "SELECT worker_id, Lat, Lng, hello FROM kafka_consumer BY time DESC LIMIT 1"
     result = client.query(query)
+    print(result)
     data = list(result.get_points())
     client.close()
 
     if not data:
         return None
 
-    if data and data[0]['hello'] == previous_hello:
-        return None
+    # if data and data[0]['hello'] == previous_hello:
+    #     return None
 
-    if data:
-        previous_hello = data[0]['hello']
+    # if data:
+    #     previous_hello = data[0]['hello']
 
     return data

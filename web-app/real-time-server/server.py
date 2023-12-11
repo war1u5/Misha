@@ -4,7 +4,7 @@ from database import get_gps_data
 from redis_publisher import publish_gps_data
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 @app.route('/api/gps-data')

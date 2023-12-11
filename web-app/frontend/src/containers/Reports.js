@@ -6,8 +6,8 @@ const Reports = () => (
 
     <div className='container' style={{ height: '75.7vh' }}>
         <div className="jumbotron mt-5 ">
-            <h1 className="display-4">Hello there! This is M.I.S.H.A.</h1>
-            <p className="lead">Military Intelligence Surveillance and Hazard Assessment</p>
+            <h1 className="display-4">Generate report</h1>
+            <p className="lead">Page under construction</p>
             <hr className="my-4" />
         </div>
     </div>

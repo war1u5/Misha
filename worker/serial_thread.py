@@ -54,3 +54,20 @@ class SerialThread(QThread):
             'RSSI': int(data.split()[-1])
         }
         return json.dumps(json_message)
+
+    # def extract_gps_data(self, message):
+    #     data = message['data']
+    #     split_message = data.split("'")[1].split(", ")
+    #     json_message = {
+    #         'worker_id': message['worker_id'],
+    #         'hello': int(split_message[0].split(": ")[1]),
+    #         'Valid': int(split_message[1].split(": ")[1]),
+    #         'Lat': float(split_message[2].split(": ")[1]),
+    #         'Lng': float(split_message[3].split(": ")[1]),
+    #         'Satellites': int(split_message[4].split(": ")[1]),
+    #         'Timestamp': int(split_message[5].split(": ")[1]),
+    #         'Date': split_message[6].split(": ")[1],
+    #         'Time': split_message[7].split(": ")[1],
+    #         'RSSI': int(data.split()[-1])
+    #     }
+    #     return json.dumps(json_message)

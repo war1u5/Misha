@@ -40,19 +40,19 @@ const Tracker = () => {
 
     console.log('Fetched data:', response.data[0]);
 
-    // const lat = response.data[0].Lat;
-    // const lon = response.data[0].Lng;
-    // const recordedTime = response.data[0].time;
-    // const node_id = response.data[0].worker_id;
-    // const count = response.data[0].hello;
+    const lat = response.data[0].Lat;
+    const lon = response.data[0].Lng;
+    const recordedTime = response.data[0].time;
+    const node_id = response.data[0].worker_id;
+    const count = response.data[0].hello;
 
-    const randomData = generateRandomData();
-
-    const lat = randomData.Lat;
-    const lon = randomData.Lng;
-    const recordedTime = randomData.time;
-    const node_id = randomData.worker_id;
-    const count = randomData.hello;
+    // const randomData = generateRandomData();
+    //
+    // const lat = randomData.Lat;
+    // const lon = randomData.Lng;
+    // const recordedTime = randomData.time;
+    // const node_id = randomData.worker_id;
+    // const count = randomData.hello;
 
     console.log("Lat: ", lat);
     console.log("Lon: ", lon);

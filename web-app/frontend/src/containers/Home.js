@@ -1,6 +1,5 @@
 import React from 'react';
 import World from '../components/World'
-import Globe from "../components/Globe";
 
 const Home = () => (
     <div className='container home-container'>

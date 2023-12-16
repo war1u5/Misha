@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from "../actions/auth";
+import { FaUser, FaLock } from "react-icons/fa";
+import "../styles/Login.css"
 
 const Login = ({ login, isAuthenticated }) => {
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -45,12 +47,12 @@ const Login = ({ login, isAuthenticated }) => {
     }, [isAuthenticated, loginError]);
 
     return (
-        <div className='container mt-5' style={{ height: '75.6vh' }}>
+        <div className='container mt-5 form-container'>
             <h1>Sign In</h1>
             <p>Sign into your Account</p>
             {loginError && <div className="alert alert-danger">{loginError}</div>}
             <form onSubmit={e => onSubmit(e)} onClick={onFormClick}>
-                <div className='form-group mb-3'>
+                <div className='form-group mb-3 input-box'>
                     <input
                         className='form-control'
                         type='email'
@@ -60,8 +62,9 @@ const Login = ({ login, isAuthenticated }) => {
                         onChange={e => onChange(e)}
                         required
                     />
+                    <FaUser className='icon'/>
                 </div>
-                <div className='form-group mb-3'>
+                <div className='form-group mb-3 input-box'>
                     <input
                         className='form-control'
                         type='password'
@@ -72,6 +75,7 @@ const Login = ({ login, isAuthenticated }) => {
                         minLength='6'
                         required
                     />
+                    <FaLock className='icon'/>
                 </div>
                 <button className='btn btn-primary' type='submit'>Login</button>
             </form>

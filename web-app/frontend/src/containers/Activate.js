@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { verify } from "../actions/auth";
+import "../styles/Activate.css"
 
 const Activate = ({ verify }) => {
     const navigate = useNavigate();
@@ -21,17 +22,9 @@ const Activate = ({ verify }) => {
 
     return(
         <div className='container'>
-            <div
-                className='d-flex flex-column justify-content-center align-items-center'
-                style={{ marginTop: '200px' }}
-            >
+            <div className='activation-box'>
                 <h1>Verify your Account:</h1>
-                <button
-                    onClick={verify_account}
-                    style={{ marginTop: '50px' }}
-                    type='button'
-                    className='btn btn-primary'
-                >
+                <button onClick={verify_account} type='button' className='btn btn-primary verify-button'>
                     Verify
                 </button>
             </div>

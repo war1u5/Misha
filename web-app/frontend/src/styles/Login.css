@@ -1,0 +1,22 @@
+.form-container {
+    height: 75.6vh;
+    width: 650px;
+    border: 1px solid #000;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.input-box {
+    position: relative;
+}
+
+.input-box .form-control {
+    padding-left: 30px;
+}
+
+.input-box .icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}

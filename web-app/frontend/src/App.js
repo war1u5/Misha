@@ -30,10 +30,22 @@ const App = () => (
                     <Route path='/activate/:uid/:token' element={<Activate />} />
                     <Route path='/reset-password' element={<ResetPassword />} />
                     <Route path='/password/reset/confirm/:uid/:token' element={<ResetPasswordConfirm />} />
-                    <Route element={<PrivateRoute/>}>
+                    {/*<Route element={<PrivateRoute/>}>*/}
+                    {/*    <Route path='/tracker' element={<Tracker />}/>*/}
+                    {/*    <Route path='/stats' element={<Stats />} />*/}
+                    {/*    <Route path='/redis' element={<RedisTracker />} />*/}
+                    {/*    <Route path='/reports' element={<Reports />} />*/}
+                    {/*</Route>*/}
+                    <Route element={<PrivateRoute requiredPermission="is_commander"/>}>
                         <Route path='/tracker' element={<Tracker />}/>
+                    </Route>
+                    <Route element={<PrivateRoute requiredPermission="is_c2operator"/>}>
                         <Route path='/stats' element={<Stats />} />
+                    </Route>
+                    <Route element={<PrivateRoute requiredPermission="is_analyst"/>}>
                         <Route path='/redis' element={<RedisTracker />} />
+                    </Route>
+                    <Route element={<PrivateRoute requiredPermission="is_agent"/>}>
                         <Route path='/reports' element={<Reports />} />
                     </Route>
                 </Routes>

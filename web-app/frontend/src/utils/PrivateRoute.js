@@ -2,16 +2,16 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
 
-const PrivateRoute = ({ auth }) => {
+const PrivateRoute = ({ auth, requiredPermission }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!auth.isAuthenticated) {
+    if (!auth.isAuthenticated || !auth.user || !auth.user[requiredPermission]) {
       navigate('/login');
     }
-  }, [auth, navigate]);
+  }, [auth, navigate, requiredPermission]);
 
-  if (!auth.isAuthenticated) {
+  if (!auth.isAuthenticated || !auth.user || !auth.user[requiredPermission]) {
     return null;
   }
 

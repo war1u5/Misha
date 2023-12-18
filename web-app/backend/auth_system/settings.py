@@ -174,10 +174,11 @@ DJOSER = {
         'user': 'accounts.serializers.UserCreateSerializer',
         'current_user': 'accounts.serializers.UserCreateSerializer',
         'user_delete': 'djoser.serializers.UserDeleteSerializer',
+        'token': 'accounts.serializers.TokenSerializer',
     }
 }
 
-DOMAIN = 'localhost:3000'
+DOMAIN = 'localhost:3001'
 SITE_NAME = 'M.I.S.H.A.'
 
 AUTH_USER_MODEL = 'accounts.UserAccount'

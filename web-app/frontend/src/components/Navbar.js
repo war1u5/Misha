@@ -4,7 +4,7 @@ import { logout } from "../actions/auth";
 import { connect } from "react-redux";
 import { ThemeContext } from '../hocs/Layout';
 
-const Navbar = ({ logout, isAuthenticated }) => {
+const Navbar = ({ logout, isAuthenticated, isCommander, isC2operator, isAnalyst, isAgent }) => {
     const { toggleTheme } = useContext(ThemeContext);
     const guestLinks = () => (
         <Fragment>
@@ -19,18 +19,26 @@ const Navbar = ({ logout, isAuthenticated }) => {
 
     const authLinks = () => (
         <Fragment>
-            <li className="nav-item">
-                <Link className="nav-link" to="/tracker">Tracker</Link>
-            </li>
-            <li className="nav-item">
-                <Link className="nav-link" to="/stats">Stats</Link>
-            </li>
-            <li className="nav-item">
-                <Link className="nav-link" to="/redis">Redis</Link>
-            </li>
-            <li className="nav-item">
-                <Link className="nav-link" to="/reports">Reports</Link>
-            </li>
+            {(isCommander || isAgent) && (
+                <li className="nav-item">
+                    <Link className="nav-link" to="/tracker">Tracker</Link>
+                </li>
+            )}
+            {(isCommander || isC2operator) && (
+                <li className="nav-item">
+                    <Link className="nav-link" to="/stats">Stats</Link>
+                </li>
+            )}
+            {(isCommander || isAgent) && (
+                <li className="nav-item">
+                    <Link className="nav-link" to="/redis">Redis</Link>
+                </li>
+            )}
+            {(isCommander || isAnalyst) && (
+                <li className="nav-item">
+                    <Link className="nav-link" to="/reports">Reports</Link>
+                </li>
+            )}
             <li className="nav-item">
                 <a className="nav-link" href="#!" onClick={logout}>Logout</a>
             </li>
@@ -70,7 +78,11 @@ const Navbar = ({ logout, isAuthenticated }) => {
 };
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    isCommander: state.auth.user ? state.auth.user.is_commander : false,
+    isC2operator: state.auth.user ? state.auth.user.is_c2operator : false,
+    isAnalyst: state.auth.user ? state.auth.user.is_analyst : false,
+    isAgent: state.auth.user ? state.auth.user.is_agent : false,
 });
 
 export default connect(mapStateToProps, { logout })(Navbar);

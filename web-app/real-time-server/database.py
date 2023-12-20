@@ -11,7 +11,7 @@ def get_gps_data():
                             password='12345678',
                             database='main_storage')
 
-    query = "SELECT worker_id, Lat, Lng, hello FROM kafka_consumer ORDER BY time DESC LIMIT 1"
+    query = "SELECT worker_id, Lat, Lng, hello FROM all_data ORDER BY time DESC LIMIT 1"
     # query = "SELECT last(worker_id), last(Lat), last(Lng), last(hello) FROM kafka_consumer"
     # query = "SELECT worker_id, Lat, Lng, hello FROM kafka_consumer BY time DESC LIMIT 1"
     result = client.query(query)

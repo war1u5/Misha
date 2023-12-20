@@ -6,14 +6,14 @@ const PrivateRoute = ({ auth, requiredPermission }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!auth.isAuthenticated || !auth.user || !auth.user[requiredPermission]) {
+    if (!auth.isAuthenticated) {
       navigate('/login');
     }
   }, [auth, navigate, requiredPermission]);
 
-  if (!auth.isAuthenticated || !auth.user || !auth.user[requiredPermission]) {
-    return null;
-  }
+  // if (!auth.isAuthenticated || !auth.user || !auth.user[requiredPermission]) {
+  //   return null;
+  // }
 
   return <Outlet />;
 };

@@ -3,7 +3,7 @@ import serial
 import serial.serialutil
 import json
 
-from Misha.worker.kafka_producer import KafkaProducerWrapper
+from Misha.retired.worker.kafka_producer import KafkaProducerWrapper
 from worker_config import WORKER_ID, BAUD_RATE, ALL_DATA_KAFKA_TOPIC, KAFKA_SERVERS
 
 

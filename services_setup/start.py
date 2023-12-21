@@ -1,7 +1,7 @@
 import subprocess
 import time
 
-kafka_zookeeper_file = "kafka_zookeeper.yml"
+kafka_zookeeper_file = "kafka.yml"
 telegraf_influxdb_grafana_file = "telegraf_influxdb_grafana.yml"
 postgres_file = "postgres.yml"
 

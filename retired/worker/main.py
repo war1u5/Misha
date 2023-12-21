@@ -19,7 +19,7 @@ app.setStyleSheet("""
         font-size: 20px;
     }
 """)
-app.setWindowIcon(QIcon('../utils/images/antenna.png'))
+app.setWindowIcon(QIcon('../../utils/images/antenna.png'))
 
 window = SerialParametersApp()
 window.show()

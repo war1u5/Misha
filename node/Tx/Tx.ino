@@ -53,11 +53,7 @@ void loop() {
                    ", Valid: " + 1 +
                    ", Lat: " + String(gps.location.lat(), 6) +
                    ", Lng: " + String(gps.location.lng(), 6) +
-                   ", Satellites: " + String(gps.satellites.value()) +
-                   ", Timestamp: " + String(millis()) +
-                   ", Date: " + String(gps.date.day()) + "/" + String(gps.date.month()) + "/" + String(gps.date.year()) +
-                   ", Time: " + String(gps.time.hour()) + ":" + String(gps.time.minute()) + ":" + String(gps.time.second());
-
+                   ", Satellites: " + String(gps.satellites.value()); 
     Serial.println(dataString);
 
     LoRa.beginPacket();
@@ -69,11 +65,7 @@ void loop() {
                    ", Valid: " + 0 +
                    ", Lat: " + -1 +
                    ", Lng: " + -1 +
-                   ", Satellites: " + -1 +
-                   ", Timestamp: " + String(millis()) +
-                   ", Date: " + -1 +
-                   ", Time: " + -1;
-
+                   ", Satellites: " + -1;
     Serial.println(dataString);
 
     LoRa.beginPacket();

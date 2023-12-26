@@ -1,71 +1,31 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
-import axios from 'axios';
+import useWebSocket from 'react-use-websocket';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
 import 'leaflet-defaulticon-compatibility';
 
-const generateRandomCoordinates = () => {
-  return Math.random() % 30;
-};
-
 const RedisTracker = () => {
   const [points, setPoints] = useState([]);
-  const [fetching, setFetching] = useState(false);
   const mapRef = useRef(null);
 
-  const fetchData = async () => {
-  try {
-    const response = await axios.get('http://127.0.0.1:5000/api/gps-data');
-
-    if (response.data.length === 0) {
-      console.log('No data received');
-      return;
-    }
-
-    console.log('Fetched data:', response.data[0]);
-
-    const randomLatOffset = generateRandomCoordinates();
-    const randomLngOffset = generateRandomCoordinates();
-
-    const lat = response.data[0].Lat;
-    const lon = response.data[0].Lng;
-    const recordedTime = response.data[0].time;
-    const node_id = response.data[0].worker_id;
-    const count = response.data[0].hello;
-
-    console.log("Lat: ", lat);
-    console.log("Lon: ", lon);
-    console.log("time: ", recordedTime);
-
-    const testLat = lat + randomLatOffset;
-    const testLon = lon + randomLngOffset;
-
-    setPoints(prevPoints => [
-      ...prevPoints,
-      {
-        Lat: testLat,
-        Lng: testLon,
-        time: recordedTime,
-        worker_id: node_id,
-        packet: count
-      },
-    ]);
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-};
-
+  const { sendJsonMessage, lastJsonMessage } = useWebSocket('ws://127.0.0.1:8001/ws');
 
   useEffect(() => {
-    let intervalId;
-
-    if (fetching) {
-      intervalId = setInterval(fetchData, 1000);
+    if (lastJsonMessage) {
+      const data = lastJsonMessage;
+      setPoints(prevPoints => [
+        ...prevPoints,
+        {
+          Lat: data.Lat,
+          Lng: data.Lng,
+          time: data.time,
+          worker_id: data.worker_id,
+          packet: data.hello
+        },
+      ]);
     }
-
-    return () => clearInterval(intervalId);
-  }, [fetching]);
+  }, [lastJsonMessage]);
 
   useEffect(() => {
     if (mapRef.current && points.length > 0) {
@@ -74,26 +34,14 @@ const RedisTracker = () => {
     }
   }, [points]);
 
-  const handleStart = () => {
-    setFetching(true);
-  };
-
-  const handleStop = () => {
-    setFetching(false);
-  };
-
-  const clearMap = () => {
-    setPoints([]);
-  };
-
   return (
     <div className='container-fluid text-center'>
       <div className="row">
         <div className="col">
           <div className="d-grid gap-2 mt-5">
-            <button className="btn btn-dark" type="button" onClick={handleStart}>Start</button>
-            <button className="btn btn-dark" type="button" onClick={handleStop}>Stop</button>
-            <button className="btn btn-danger" type="button" onClick={clearMap}>Clear Map</button>
+            <button className="btn btn-dark" type="button" onClick={() => sendJsonMessage({ action: 'start' })}>Start</button>
+            <button className="btn btn-dark" type="button" onClick={() => sendJsonMessage({ action: 'stop' })}>Stop</button>
+            <button className="btn btn-danger" type="button" onClick={() => setPoints([])}>Clear Map</button>
           </div>
         </div>
         <div className="col-10">

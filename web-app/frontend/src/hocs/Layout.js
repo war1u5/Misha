@@ -4,7 +4,7 @@ import Copyrights from '../components/Copyrights';
 import { connect } from "react-redux";
 import { checkAuthenticated, load_user } from "../actions/auth";
 
-export const ThemeContext = createContext();
+export const ThemeContext = createContext(undefined);
 
 const Layout = ({ checkAuthenticated, load_user, children }) => {
     const [theme, setTheme] = useState('text-bg-light');

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
+import {MapContainer, TileLayer, Marker, Polyline, Popup, LayersControl} from 'react-leaflet';
 import useWebSocket from 'react-use-websocket';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
@@ -20,7 +20,7 @@ const RedisTracker = () => {
           {
             Lat: data.Lat,
             Lng: data.Lng,
-            time: data.time,
+            time: Date.now(),
             worker_id: data.worker_id,
             packet: data.hello
           },
@@ -51,10 +51,21 @@ const RedisTracker = () => {
         <div className="col-10">
           <div className="container-fluid mt-5">
             <MapContainer center={[45, 12]} zoom={4} style={{ height: "75.6vh", width: "100%" }} ref={mapRef}>
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              />
+              <LayersControl position="topright">
+                <LayersControl.BaseLayer checked name="OpenStreetMap">
+                  <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                  />
+                </LayersControl.BaseLayer>
+                <LayersControl.BaseLayer name="Satellite View">
+                  <TileLayer
+                    url='https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
+                    maxZoom={20}
+                    subdomains={['mt0','mt1','mt2','mt3']}
+                  />
+                </LayersControl.BaseLayer>
+              </LayersControl>
               {points.map(point => (
                 <Marker key={`${point.time}-${point.packet}`} position={[point.Lat, point.Lng]}>
                   <Popup>
@@ -62,7 +73,7 @@ const RedisTracker = () => {
                     <p>{`Node ID: ${point.worker_id}`}</p>
                     <p>{`Lat: ${point.Lat}`}</p>
                     <p>{`Lng: ${point.Lng}`}</p>
-                    <p>{`packet: ${point.packet}`}</p>
+                    <p>{`Packet: ${point.packet}`}</p>
                   </Popup>
                 </Marker>
               ))}

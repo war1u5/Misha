@@ -11,6 +11,7 @@ app = FastAPI()
 class ConnectionManager:
     def __init__(self):
         self.active_connections: List[WebSocket] = []
+        self.is_tracking = False
 
     async def connect(self, websocket: WebSocket):
         await websocket.accept()
@@ -38,7 +39,7 @@ c.subscribe(['all_data'])
 
 
 def start_kafka_consumer():
-    while True:
+    while manager.is_tracking:
         msg = c.poll(1.0)
         if msg is None:
             continue
@@ -49,14 +50,17 @@ def start_kafka_consumer():
         asyncio.run(manager.send_data(data))
 
 
-threading.Thread(target=start_kafka_consumer, daemon=True).start()
-
-
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)
     try:
         while True:
             data = await websocket.receive_text()
+            action = json.loads(data).get('action')
+            if action == 'start':
+                manager.is_tracking = True
+                threading.Thread(target=start_kafka_consumer, daemon=True).start()
+            elif action == 'stop':
+                manager.is_tracking = False
     except WebSocketDisconnect:
         manager.disconnect(websocket)

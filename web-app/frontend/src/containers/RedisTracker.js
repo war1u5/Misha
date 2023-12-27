@@ -14,23 +14,27 @@ const RedisTracker = () => {
   useEffect(() => {
     if (lastJsonMessage) {
       const data = lastJsonMessage;
-      setPoints(prevPoints => [
-        ...prevPoints,
-        {
-          Lat: data.Lat,
-          Lng: data.Lng,
-          time: data.time,
-          worker_id: data.worker_id,
-          packet: data.hello
-        },
-      ]);
+      if (data.Lat && data.Lng) {
+        setPoints(prevPoints => [
+          ...prevPoints,
+          {
+            Lat: data.Lat,
+            Lng: data.Lng,
+            time: data.time,
+            worker_id: data.worker_id,
+            packet: data.hello
+          },
+        ]);
+      }
     }
   }, [lastJsonMessage]);
 
   useEffect(() => {
     if (mapRef.current && points.length > 0) {
       const latestPoint = points[points.length - 1];
-      mapRef.current.setView([latestPoint.Lat, latestPoint.Lng], mapRef.current.getZoom());
+      if (latestPoint.Lat && latestPoint.Lng) {
+        mapRef.current.setView([latestPoint.Lat, latestPoint.Lng], mapRef.current.getZoom());
+      }
     }
   }, [points]);
 
@@ -58,7 +62,7 @@ const RedisTracker = () => {
                     <p>{`Node ID: ${point.worker_id}`}</p>
                     <p>{`Lat: ${point.Lat}`}</p>
                     <p>{`Lng: ${point.Lng}`}</p>
-                    <p>{`Lng: ${point.packet}`}</p>
+                    <p>{`packet: ${point.packet}`}</p>
                   </Popup>
                 </Marker>
               ))}

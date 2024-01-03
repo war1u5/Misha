@@ -10,11 +10,11 @@ for set_ in ['train', 'validation', 'test']:
     for dir_ in [os.path.join(DATA_OUT_DIR, set_),
                  os.path.join(DATA_OUT_DIR, set_, 'images'),
                  os.path.join(DATA_OUT_DIR, set_, 'labels')]:
-        if os.path.exists(dir_):
-            shutil.rmtree(dir_)
-        os.mkdir(dir_)
+        if not os.path.exists(dir_):
+            # shutil.rmtree(dir_)
+            os.mkdir(dir_)
 
-backpack_id = '/m/01940j'
+backpack_id = '/m/025dyy'
 train_bboxes_filename = os.path.join('.', 'train-annotations-bbox.csv')
 validation_bboxes_filename = os.path.join('.', 'validation-annotations-bbox.csv')
 test_bboxes_filename = os.path.join('.', 'test-annotations-bbox.csv')
@@ -39,7 +39,7 @@ for j, filename in enumerate([train_bboxes_filename, validation_bboxes_filename,
                     w = x2 - x1
                     h = y2 - y1
 
-                    f_ann.write('0 {} {} {} {}\n'.format(xc, yc, w, h))
+                    f_ann.write('1 {} {} {} {}\n'.format(xc, yc, w, h))
                     f_ann.close()
 
             line = f.readline()

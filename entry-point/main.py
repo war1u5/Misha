@@ -4,7 +4,7 @@ import json
 
 worker_id = 1
 ser = serial.Serial()
-ser.port = 'COM8'
+ser.port = 'COM5'
 ser.baudrate = 115200
 ser.open()
 
@@ -33,11 +33,10 @@ if ser.is_open:
                         print("Data received does not contain expected delimiter, continuing...")
                         continue
                 data['worker_id'] = worker_id
-                json_data = json.dumps(data)
-                print(json_data)
+                # json_data = json.dumps(data)
+                # print(json_data)
 
-                # Send the JSON data to the Kafka topic
-                p.produce('all_data', json_data)
+                p.produce('all_data', json.dumps(data))
                 p.flush()
             except UnicodeDecodeError:
                 print("Non-ASCII data received, continuing...")

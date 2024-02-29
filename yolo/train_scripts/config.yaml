@@ -1,0 +1,7 @@
+path: D:\_yolo\_dataset\data
+train: train\images
+val: train\images
+
+nc: 2
+
+names: ['backpack', 'box']

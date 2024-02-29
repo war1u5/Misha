@@ -9,14 +9,15 @@ import ResetPassword from './containers/ResetPassword';
 import ResetPasswordConfirm from './containers/ResetPasswordConfirm';
 import Tracker from './containers/Tracker';
 import Stats from "./containers/Stats";
+import RedisTracker from "./containers/RedisTracker";
+import Reports from "./containers/Reports";
 
 import {Provider} from "react-redux";
 import store from './store';
 
 import Layout from './hocs/Layout';
 import PrivateRoute from "./utils/PrivateRoute";
-import RedisTracker from "./containers/RedisTracker";
-import Reports from "./containers/Reports";
+
 
 
 const App = () => (

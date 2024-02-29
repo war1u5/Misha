@@ -6,7 +6,7 @@ DATA_ALL_DIR = os.path.join('.', 'data_all')
 
 DATA_OUT_DIR = os.path.join('.', 'data')
 
-for set_ in ['train', 'validation', 'test']:
+for set_ in ['train_scripts', 'validation', 'test']:
     for dir_ in [os.path.join(DATA_OUT_DIR, set_),
                  os.path.join(DATA_OUT_DIR, set_, 'images'),
                  os.path.join(DATA_OUT_DIR, set_, 'labels')]:
@@ -15,13 +15,13 @@ for set_ in ['train', 'validation', 'test']:
             os.mkdir(dir_)
 
 backpack_id = '/m/025dyy'
-train_bboxes_filename = os.path.join('.', 'train-annotations-bbox.csv')
+train_bboxes_filename = os.path.join('.', 'train_scripts-annotations-bbox.csv')
 validation_bboxes_filename = os.path.join('.', 'validation-annotations-bbox.csv')
 test_bboxes_filename = os.path.join('.', 'test-annotations-bbox.csv')
 
 
 for j, filename in enumerate([train_bboxes_filename, validation_bboxes_filename, test_bboxes_filename]):
-    set_ = ['train', 'validation', 'test'][j]
+    set_ = ['train_scripts', 'validation', 'test'][j]
     print(filename)
     with open(filename, 'r') as f:
         line = f.readline()

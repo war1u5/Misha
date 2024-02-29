@@ -46,8 +46,9 @@ def start_kafka_consumer():
         if msg.error():
             print("Consumer error: {}".format(msg.error()))
             continue
-        data = msg.value().decode('utf-8')
-        asyncio.run(manager.send_data(data))
+        # data = msg.value().decode('utf-8')
+        asyncio.run(manager.send_data(
+                                msg.value().decode('utf-8')))
 
 
 @app.websocket("/ws")

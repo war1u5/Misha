@@ -7,6 +7,11 @@ import os
 class AxisCam:
     def __init__(self, username, password, ip, port):
         self.base_url = f'http://{username}:{password}@{ip}:{port}'
+        print(f"Initialized with the following creds: "
+              f"\nUsername: {username}"
+              f"\nPassword: {password}"
+              f"\nIP: {ip}"
+              f"\nPORT: {port}")
 
     def get_live_feed(self):
         url = self.base_url + '/axis-cgi/mjpg/video.cgi'
@@ -50,3 +55,6 @@ class AxisCam:
 
             results = model.predict(frame, show=True, conf=0.5)
             # to do: based on the results, send a message via LoRa
+
+        cap.release()
+        cv2.destroyAllWindows()

@@ -9,7 +9,7 @@ export const ThemeContext = createContext(undefined);
 const Layout = ({ checkAuthenticated, load_user, children }) => {
     const [theme, setTheme] = useState('text-bg-light');
 
-    const toggleTheme = () => { // add a function to toggle the theme
+    const toggleTheme = () => {
         setTheme(theme === 'text-bg-secondary' ? 'text-bg-light' : 'text-bg-secondary');
     };
 

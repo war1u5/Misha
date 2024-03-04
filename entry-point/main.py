@@ -1,3 +1,4 @@
+# script used to read from serial device and write to kafka
 import serial
 from confluent_kafka import Producer
 import json

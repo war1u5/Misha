@@ -39,7 +39,7 @@ class AxisCam:
         cap.release()
         cv2.destroyAllWindows()
 
-    def get_yolo_detections(self):
+    def get_yolo_detections(self, message_generator):
         load_dotenv()
         model_path = os.getenv('MODEL_PATH')
         model = YOLO(model_path)
@@ -53,8 +53,12 @@ class AxisCam:
                 print("Error: Could not read frame.")
                 break
 
-            results = model.predict(frame, show=True, conf=0.5)
+            results = model.predict(frame, show=True, conf=0.5, device=0)
             # to do: based on the results, send a message via LoRa
+            message_generator.message_queue.put(results)
+
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
 
         cap.release()
         cv2.destroyAllWindows()

@@ -42,13 +42,13 @@ def start_kafka_consumer():
     while manager.is_tracking:
         msg = c.poll(1.0)
         if msg is None:
+            print("No message available")
             continue
         if msg.error():
             print("Consumer error: {}".format(msg.error()))
             continue
         # data = msg.value().decode('utf-8')
-        asyncio.run(manager.send_data(
-                                msg.value().decode('utf-8')))
+        asyncio.run(manager.send_data(msg.value().decode('utf-8')))
 
 
 @app.websocket("/ws")
@@ -61,7 +61,9 @@ async def websocket_endpoint(websocket: WebSocket):
             if action == 'start':
                 manager.is_tracking = True
                 threading.Thread(target=start_kafka_consumer, daemon=True).start()
+                print('Started')
             elif action == 'stop':
                 manager.is_tracking = False
+                print('Stopped')
     except WebSocketDisconnect:
         manager.disconnect(websocket)

@@ -2,6 +2,10 @@ import cv2
 from ultralytics import YOLO
 from dotenv import load_dotenv
 import os
+import sys
+import io
+
+from Misha.yolo.axis import message_generator
 
 
 class AxisCam:
@@ -39,7 +43,7 @@ class AxisCam:
         cap.release()
         cv2.destroyAllWindows()
 
-    def get_yolo_detections(self, message_generator):
+    def get_yolo_detections(self):
         load_dotenv()
         model_path = os.getenv('MODEL_PATH')
         model = YOLO(model_path)
@@ -54,8 +58,10 @@ class AxisCam:
                 break
 
             results = model.predict(frame, show=True, conf=0.5, device=0)
-            # to do: based on the results, send a message via LoRa
-            message_generator.message_queue.put(results)
+
+            # for r in results:
+            #     print(f"[debug] - {r.boxes.cls}")
+            #     message_generator.message_queue.put(r.boxes.cls)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break

@@ -15,9 +15,9 @@ port = os.getenv('PORT')
 print(f"CUDA enabled: {torch.cuda.is_available()}")
 print(torch.zeros(1).cuda())
 
-message_generator = MessageGenerator()
-threading.Thread(target=message_generator.run).start()
+# message_generator = MessageGenerator('COM6', 115200)
+# threading.Thread(target=message_generator.run).start()
 
 cam = AxisCam(username, password, ip_address, port)
 # cam.get_live_feed()
-cam.get_yolo_detections(message_generator)
+cam.get_yolo_detections()

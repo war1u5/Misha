@@ -44,36 +44,41 @@ void setup() {
 }
 
 void loop() {
-  while (Serial2.available() > 0) {
-    gps.encode(Serial2.read());
+  // Check if there's data available on the serial port
+  if (Serial.available() > 0) {
+    String serialData = Serial.readString(); // Read the data from the serial port
+
+    while (Serial2.available() > 0) {
+      gps.encode(Serial2.read());
+    }
+
+    if (gps.location.isValid()) {
+      String dataString = "hello: " + String(counter) +
+                     ", Valid: " + 1 +
+                     ", Lat: " + String(gps.location.lat(), 6) +
+                     ", Lng: " + String(gps.location.lng(), 6) +
+                     ", Satellites: " + String(gps.satellites.value()) +
+                     ", Serial Data: " + serialData; // Include the serial data
+      Serial.println(dataString);
+
+      LoRa.beginPacket();
+      LoRa.print(dataString);
+      LoRa.endPacket();
+    }
+    else {
+      String dataString = "hello: " + String(counter) +
+                     ", Valid: " + 0 +
+                     ", Lat: " + -1 +
+                     ", Lng: " + -1 +
+                     ", Satellites: " + -1 +
+                     ", Serial Data: " + serialData; // Include the serial data
+      Serial.println(dataString);
+
+      LoRa.beginPacket();
+      LoRa.print(dataString);
+      LoRa.endPacket();
+    }
+
+    counter++;
   }
-
-  if (gps.location.isValid()) {
-    String dataString = "hello: " + String(counter) +
-                   ", Valid: " + 1 +
-                   ", Lat: " + String(gps.location.lat(), 6) +
-                   ", Lng: " + String(gps.location.lng(), 6) +
-                   ", Satellites: " + String(gps.satellites.value()); 
-    Serial.println(dataString);
-
-    LoRa.beginPacket();
-    LoRa.print(dataString);
-    LoRa.endPacket();
-  }
-  else {
-    String dataString = "hello: " + String(counter) +
-                   ", Valid: " + 0 +
-                   ", Lat: " + -1 +
-                   ", Lng: " + -1 +
-                   ", Satellites: " + -1;
-    Serial.println(dataString);
-
-    LoRa.beginPacket();
-    LoRa.print(dataString);
-    LoRa.endPacket();
-  }
-
-  counter++;
-
-  delay(1000);
 }
